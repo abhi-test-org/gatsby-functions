@@ -6,11 +6,15 @@ export default function Home() {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const { data } = await fetch(`/functions/time.js`).then(res => res.json())
+      const { data } = await fetch(`/functions/time.js`, {
+        method: "POST",
+      }).then(res => res.json())
       setTime(new Date(data).toLocaleTimeString("en-US"))
     }, 1000)
 
-    fetch(`/functions/dog.js`)
+    fetch(`/functions/dog.js`, {
+      method: "POST",
+    })
       .then(res => res.json())
       .then(({ data: dogData }) => {
         setDog(dogData)
