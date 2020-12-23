@@ -10,9 +10,11 @@ export default function Home() {
       setTime(new Date(data).toLocaleTimeString("en-US"))
     }, 1000)
 
-    const { data: dogData } = await fetch(`/functions/dog.js`).then(res => res.json())
-
-    setDog(dogData)
+    fetch(`/functions/dog.js`)
+      .then(res => res.json())
+      .then(({ data: dogData }) => {
+        setDog(dogData)
+      })
 
     return () => {
       clearInterval(interval)
