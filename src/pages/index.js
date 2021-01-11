@@ -14,6 +14,9 @@ export default function Home() {
       .then(({ data }) => {
         setTime(new Date(data).toLocaleTimeString("en-US"))
       })
+      .catch(e => {
+        console.error(e)
+      })
 
     fetch(`/functions/dog.js`, {
       method: "POST",
@@ -22,11 +25,14 @@ export default function Home() {
       .then(({ data: dogData }) => {
         setDog(dogData)
       })
+      .catch(e => {
+        console.error(e)
+      })
 
-    return () => {
-      clearInterval(interval)
-    }
+    return () => {}
   }, [])
+
+  console.log(formSubmit, "#####")
 
   return (
     <div>
@@ -35,31 +41,32 @@ export default function Home() {
 
       <p>Heres a form</p>
 
-      <form
-        onSubmit={e => {
-          e.preventDefault()
+      <input
+        name="first_name"
+        value={formSubmit.firstName}
+        onChange={e => {
+          setFormSubmit({
+            ...formSubmit,
+            firstName: e.target.value,
+          })
+        }}
+      />
 
+      <button
+        onClick={e => {
           fetch(`/functions/submit.js`, {
             method: "POST",
+            body: JSON.stringify(formResponse),
           })
             .then(res => res.json())
             .then(({ data }) => {
               setFormResponse(data)
             })
         }}
+        type="button"
       >
-        <input
-          name="first_name"
-          onChange={e => {
-            setFormSubmit({
-              ...formSubmit,
-              firstName: e.target.value,
-            })
-          }}
-        />
-
-        <button type="button">Submit</button>
-      </form>
+        Submit
+      </button>
 
       {JSON.stringify(formResponse)}
     </div>
