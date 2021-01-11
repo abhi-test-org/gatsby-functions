@@ -56,7 +56,7 @@ export default function Home() {
         onClick={e => {
           fetch(`/functions/submit.js`, {
             method: "POST",
-            body: JSON.stringify(formResponse),
+            body: JSON.stringify(formSubmit),
           })
             .then(res => res.json())
             .then(({ data }) => {
