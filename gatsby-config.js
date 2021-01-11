@@ -9,7 +9,7 @@ module.exports = {
     "gatsby-plugin-postcss",
     {
       resolve: "gatsby-plugin-functions",
-      options: { path: `${__dirname}/src/api` },
+      options: { path: `${__dirname}/src/functions` },
     },
   ],
 }
