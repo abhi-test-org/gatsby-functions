@@ -58,7 +58,7 @@ export default function Home() {
           }}
         />
 
-        <submit type="button">Submit</submit>
+        <button type="button">Submit</button>
       </form>
 
       {JSON.stringify(formResponse)}
