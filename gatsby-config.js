@@ -5,5 +5,11 @@
  */
 module.exports = {
   /* Your site config here */
-  plugins: ["gatsby-plugin-postcss", "gatsby-plugin-functions"],
+  plugins: [
+    "gatsby-plugin-postcss",
+    {
+      resolve: "gatsby-plugin-functions",
+      options: { path: `${__dirname}/src/api` },
+    },
+  ],
 }
