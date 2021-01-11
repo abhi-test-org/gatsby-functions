@@ -5,12 +5,13 @@ export default function Home() {
   const [dog, setDog] = useState(``)
 
   useEffect(() => {
-    
-      const { data } = await fetch(`/functions/time.js`, {
-        method: "POST",
-      }).then(res => res.json())
-      setTime(new Date(data).toLocaleTimeString("en-US"))
-    
+    fetch(`/functions/time.js`, {
+      method: "POST",
+    })
+      .then(res => res.json())
+      .then(({ data }) => {
+        setTime(new Date(data).toLocaleTimeString("en-US"))
+      })
 
     fetch(`/functions/dog.js`, {
       method: "POST",
