@@ -32,12 +32,12 @@ export default function Home() {
     return () => {}
   }, [])
 
-  console.log(formSubmit, "#####")
+  console.log(dog, "#####")
 
   return (
     <div>
       <h1>The time right now is {time}</h1>
-      <img src={dog?.messagee} />
+      {dog && <img src={dog?.message} />}
 
       <p>Heres a form</p>
 
