@@ -22,7 +22,7 @@ export default function Home() {
       method: "POST",
     })
       .then(res => res.json())
-      .then(({ data: dogData }) => {
+      .then(({ message: dogData }) => {
         setDog(dogData)
       })
       .catch(e => {
