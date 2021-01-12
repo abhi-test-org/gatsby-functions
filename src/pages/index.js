@@ -22,8 +22,8 @@ export default function Home() {
       method: "POST",
     })
       .then(res => res.json())
-      .then(({ message: dogData }) => {
-        setDog(dogData)
+      .then(data => {
+        setDog(data)
       })
       .catch(e => {
         console.error(e)
