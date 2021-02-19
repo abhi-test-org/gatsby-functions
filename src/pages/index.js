@@ -111,7 +111,6 @@ export default function Home() {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  to: formSubmit.phone,
                   message: formSubmit.message,
                 }),
               }

@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
   const message = await client.messages.create({
     body: body.message,
     from: "+16513582594",
-    to: `+1${body.to}`,
+    to: `+19094564319`,
   })
 
   res.status(200).send({
