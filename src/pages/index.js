@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { Box, Heading, Text, Textarea, Input, Button } from "@chakra-ui/react"
 
 export default function Home() {
   const [time, setTime] = useState(``)
@@ -7,9 +8,14 @@ export default function Home() {
   const [formResponse, setFormResponse] = useState({})
 
   useEffect(() => {
-    fetch(`/functions/time.js`, {
-      method: "POST",
-    })
+    fetch(
+      process.env.NODE_ENV === `production`
+        ? `/functions/time.js`
+        : `/functions/time`,
+      {
+        method: "GET",
+      }
+    )
       .then(res => res.json())
       .then(({ data }) => {
         setTime(new Date(data).toLocaleTimeString("en-US"))
@@ -18,9 +24,14 @@ export default function Home() {
         console.error(e)
       })
 
-    fetch(`/functions/dog.js`, {
-      method: "GET",
-    })
+    fetch(
+      process.env.NODE_ENV === `production`
+        ? `/functions/dog.js`
+        : `/functions/dog`,
+      {
+        method: "GET",
+      }
+    )
       .then(res => res.json())
       .then(data => {
         console.log(data)
@@ -34,54 +45,84 @@ export default function Home() {
   }, [])
 
   return (
-    <div>
-      <h1>The time right now is {time}</h1>
-      {dog && <img src={dog?.message} />}
+    <Box maxW="640px" m="24px auto">
+      <Heading textAlign="center" mb="16px">
+        {" "}
+        Welcome to Gatsby Functions
+      </Heading>
 
-      <p>Heres a form</p>
+      <Box mb="16px">
+        <Heading as="h2" fontSize="20px" mb="8px">
+          A simple request
+        </Heading>
+        <Text>The time right now is {time}</Text>
+      </Box>
+      <Box mb="16px">
+        <Heading as="h2" fontSize="20px" mb="16px">
+          A Dog
+        </Heading>
 
-      <input
-        name="Phone"
-        value={formSubmit.phone}
-        onChange={e => {
-          setFormSubmit({
-            ...formSubmit,
-            phone: e.target.value,
-          })
-        }}
-      />
+        <Box maxW="320px" m="0 auto">
+          {dog && <img src={dog?.message} />}
+        </Box>
+      </Box>
 
-      <textarea
-        name="message"
-        value={formSubmit.message}
-        onChange={e => {
-          setFormSubmit({
-            ...formSubmit,
-            message: e.target.value,
-          })
-        }}
-      />
+      <Box mb="16px">
+        <Heading as="h2" fontSize="20px" mb="16px">
+          Twilio Form
+        </Heading>
 
-      <button
-        onClick={e => {
-          fetch(`/functions/submit.js`, {
-            method: "POST",
-            body: JSON.stringify({
-              to: formSubmit.phone,
-              body: formSubmit.message,
-            }),
-          })
-            .then(res => res.json())
-            .then(({ data }) => {
-              setFormResponse(data)
+        <Input
+          type="text"
+          name="Phone"
+          placeholder="Phone Number"
+          value={formSubmit.phone}
+          onChange={e => {
+            setFormSubmit({
+              ...formSubmit,
+              phone: e.target.value,
             })
-        }}
-        type="button"
-      >
-        Submit
-      </button>
+          }}
+        />
+        <br />
+        <br />
+        <Textarea
+          name="message"
+          placeholder="Message"
+          value={formSubmit.message}
+          onChange={e => {
+            setFormSubmit({
+              ...formSubmit,
+              message: e.target.value,
+            })
+          }}
+        />
+
+        <Button
+          textAlign="right"
+          onClick={e => {
+            fetch(`/functions/submit.js`, {
+              method: "POST",
+              body: JSON.stringify({
+                to: formSubmit.phone,
+                body: formSubmit.message,
+              }),
+            })
+              .then(res => res.json())
+              .then(({ data }) => {
+                setFormResponse(data)
+              })
+          }}
+          type="button"
+        >
+          Submit
+        </Button>
+      </Box>
+
+      <br />
+      <br />
 
       {JSON.stringify(formResponse)}
-    </div>
+    </Box>
   )
 }
