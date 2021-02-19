@@ -112,7 +112,7 @@ export default function Home() {
                 },
                 body: JSON.stringify({
                   to: formSubmit.phone,
-                  body: formSubmit.message,
+                  message: formSubmit.message,
                 }),
               }
             )
