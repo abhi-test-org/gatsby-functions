@@ -73,7 +73,7 @@ export default function Home() {
         </Heading>
 
         <Input
-          type="text"
+          type="tel"
           name="Phone"
           placeholder="Phone Number"
           value={formSubmit.phone}
@@ -101,13 +101,21 @@ export default function Home() {
         <Button
           textAlign="right"
           onClick={e => {
-            fetch(`/functions/submit.js`, {
-              method: "POST",
-              body: JSON.stringify({
-                to: formSubmit.phone,
-                body: formSubmit.message,
-              }),
-            })
+            fetch(
+              process.env.NODE_ENV === `production`
+                ? `/functions/submit.js`
+                : `/functions/submit`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  to: formSubmit.phone,
+                  body: formSubmit.message,
+                }),
+              }
+            )
               .then(res => res.json())
               .then(({ data }) => {
                 setFormResponse(data)

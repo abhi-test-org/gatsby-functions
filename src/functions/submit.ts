@@ -3,10 +3,15 @@ const authToken = process.env.GATSBY_TWILIO_AUTH_TOKEN
 
 const client = require("twilio")(accountSid, authToken)
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   const body = req.body
 
-  console.log(body)
+  console.log(`BODY`, body)
+
+  if (!body) {
+    res.sendStatus(500)
+    return
+  }
 
   const message = await client.messages.create({
     body: body.message,
