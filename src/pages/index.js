@@ -19,10 +19,11 @@ export default function Home() {
       })
 
     fetch(`/functions/dog.js`, {
-      method: "POST",
+      method: "GET",
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         setDog(data)
       })
       .catch(e => {
@@ -32,8 +33,6 @@ export default function Home() {
     return () => {}
   }, [])
 
-  console.log(dog, "#####")
-
   return (
     <div>
       <h1>The time right now is {time}</h1>
@@ -42,12 +41,23 @@ export default function Home() {
       <p>Heres a form</p>
 
       <input
-        name="first_name"
-        value={formSubmit.firstName}
+        name="Phone"
+        value={formSubmit.phone}
         onChange={e => {
           setFormSubmit({
             ...formSubmit,
-            firstName: e.target.value,
+            phone: e.target.value,
+          })
+        }}
+      />
+
+      <textarea
+        name="message"
+        value={formSubmit.message}
+        onChange={e => {
+          setFormSubmit({
+            ...formSubmit,
+            message: e.target.value,
           })
         }}
       />
@@ -56,7 +66,10 @@ export default function Home() {
         onClick={e => {
           fetch(`/functions/submit.js`, {
             method: "POST",
-            body: JSON.stringify(formSubmit),
+            body: JSON.stringify({
+              to: formSubmit.phone,
+              body: formSubmit.message,
+            }),
           })
             .then(res => res.json())
             .then(({ data }) => {
