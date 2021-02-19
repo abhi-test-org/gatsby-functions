@@ -5,10 +5,7 @@ module.exports = async (req, res) => {
     "https://dog.ceo/api/breeds/image/random"
   )
 
-  console.log(dogImage)
-
   const dogJson = await dogImage.json()
 
-  console.log(dogJson)
   res.status(200).send(dogJson)
 }
